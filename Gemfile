@@ -14,4 +14,4 @@ gem 'haml'
 gem 'insales_api'
 
 
-gem 'sqlite3'
+gem 'sqlite3', group: :development
