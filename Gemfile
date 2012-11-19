@@ -14,3 +14,4 @@ gem 'haml'
 gem 'insales_api'
 
 
+gem 'sqlite3'

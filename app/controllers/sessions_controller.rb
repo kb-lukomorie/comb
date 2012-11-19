@@ -1,8 +1,13 @@
+# coding: utf-8
 class SessionsController < ApplicationController
   skip_before_filter :authentication, :configure_api, :except => [:destroy]
   layout 'login'
 
+  def new
+    #raise session.to_yaml
+  end
   def show
+
     render :action => :new
   end
 

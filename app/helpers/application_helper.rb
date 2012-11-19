@@ -1,3 +1,4 @@
+# coding: utf-8
 module ApplicationHelper
   def flash_messages
     message_divs = []
