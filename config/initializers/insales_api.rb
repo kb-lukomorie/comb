@@ -1,4 +1,4 @@
-MyApp.api_key            = '4bd1ef4661fbeafe83aebfa52f80ceb1'
-MyApp.api_secret         = '37c98e22da44201bde24bf8c44f3cfb5'
-MyApp.api_host           = 'arturtr.myinsales.ru'
+MyApp.api_key            = '170485'
+MyApp.api_secret         = 'edfe0e9f49a20c91a4ed004c3a5b5685'
+MyApp.api_host           = 'insales-test.herokuapp.com'
 MyApp.api_autologin_path = 'session/autologin'
