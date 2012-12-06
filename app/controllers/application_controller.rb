@@ -5,8 +5,16 @@ class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   before_filter :authentication, :configure_api
+  before_filter :pp_session_and_params
 
   protected
+  def pp_session_and_params
+    puts "!!!=============================="
+    pp session
+    puts "=============================="
+    pp params
+    puts "==============================!!!"
+  end
 
   def authentication
     logout if enter_from_different_shop?
