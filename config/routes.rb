@@ -11,6 +11,7 @@ InsalesApp::Application.routes.draw do
   match '/uninstall', :to => 'insales_app#uninstall', :as => :uninstall
   match '/login',     :to => 'sessions#new',          :as => :login
   match '/main',      :to => 'main#index',            :as => :main
+  match '/seo_optimization', to: "main#seo_optimization", as: :seo_optimization
 
   match ':controller/:action/:id'
   match ':controller/:action/:id.:format'

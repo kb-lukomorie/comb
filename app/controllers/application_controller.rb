@@ -4,11 +4,12 @@
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
-  before_filter :authentication, :configure_api
+  #before_filter :authentication #, :configure_api
   before_filter :pp_session_and_params
 
   protected
   def pp_session_and_params
+    @account = Account.first
     puts "!!!=============================="
     pp session
     puts "=============================="
@@ -63,6 +64,7 @@ class ApplicationController < ActionController::Base
   end
 
   def account_by_params
+    params = @params
     @account ||= if params[:insales_id]
       Account.find_by_insales_id(params[:insales_id])
     else
