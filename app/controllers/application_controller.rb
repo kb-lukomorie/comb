@@ -4,12 +4,12 @@
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
-  #before_filter :authentication #, :configure_api
+  before_filter :authentication, :configure_api
   before_filter :pp_session_and_params
 
   protected
   def pp_session_and_params
-    @account = Account.first
+    #@account = Account.first
     puts "!!!=============================="
     pp session
     puts "=============================="
