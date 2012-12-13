@@ -1,0 +1,4 @@
+API_KEY: '11111'
+API_SECRET: 'secret'
+API_HOST: '1.2.3.4'
+API_AUTOLOGIN_PATH: 'session/autologin'

@@ -3,9 +3,6 @@ class SessionsController < ApplicationController
   skip_before_filter :authentication, :configure_api, :except => [:destroy]
   layout 'login'
 
-  def new
-    #raise session.to_yaml
-  end
   def show
 
     render :action => :new
@@ -13,9 +10,10 @@ class SessionsController < ApplicationController
 
   def create
     @shop = params[:shop]
+    account = account_by_params
 
-    if account_by_params
-      init_authorization account_by_params
+    if account
+      init_authorization account
     else
       flash.now[:error] = "Убедитесь, что адрес магазина указан правильно."
       render :action => :new
@@ -23,6 +21,8 @@ class SessionsController < ApplicationController
   end
 
   def autologin
+    pp current_app
+    pp session
     if current_app and current_app.authorize params[:token]
       redirect_to location || root_path
     else

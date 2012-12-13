@@ -20,3 +20,5 @@ end
 
 
 gem 'sqlite3', group: :development
+gem 'debugger', group: [:development, :test]
+gem 'faker'
