@@ -9,7 +9,7 @@ if defined?(Bundler)
   # Bundler.require(:default, :assets, Rails.env)
 end
 
-ENV.update YAML.load(File.read(File.expand_path('../insales.yml', __FILE__)))
+ENV.update YAML.load(File.read(File.expand_path('../insales.yml', __FILE__))) if Rails.env.development?
 
 module InsalesApp
   class Application < Rails::Application
