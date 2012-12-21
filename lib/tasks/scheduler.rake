@@ -1,3 +1,4 @@
+# coding: utf-8
 desc "This task is called by the Heroku scheduler add-on"
 task :update_seo_params => :environment do
   Generator.all.each { |g| instance_variable_set "@#{g.name}", g.words}
