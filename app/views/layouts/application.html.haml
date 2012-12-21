@@ -1,12 +1,11 @@
 !!!
-%html{:xmlns => "http://www.w3.org/1999/xhtml"}
+%html
   %head
-    %meta{:content => "text/html; charset=utf-8", "http-equiv" => "Content-Type"}/
-    = csrf_meta_tags
     %link{:href => "/assets/favicon.ico", :rel => "shortcut icon"}/
     %title #{app_name}
+    = stylesheet_link_tag    "application", :media => "all"
     = javascript_include_tag "application"
-    = stylesheet_link_tag "application"
+    = csrf_meta_tags
 
   %body
     .containerPage
@@ -46,7 +45,7 @@
             \&copy;
             = succeed "," do
               %span{:style => "color: #752F16; font-weight: bold;"} InSales
-            2010. &nbsp;|&nbsp;
+            2013. &nbsp;|&nbsp;
             %a{:href => "http://www.insales.ru/terms"} Условия предоставления услуг
 
     :javascript
