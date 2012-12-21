@@ -13,10 +13,9 @@ task :update_seo_params => :environment do
     collections = InsalesApi::Collection.all
     catalog = collections.select{|c| c.parent_id == nil}.first
 
-    categories = collections.select {|c| c.parent_id == catalog.id}
-    categories.select! {|c| c.created_at > account.last_updated.to_s}
+    categories = collections.select {|c| c.parent_id == catalog.id} - account.updated_categories.to_a
+
     subcategories = collections - [catalog] - categories
-    subcategories.select! {|sc| sc.created_at > account.last_updated.to_s}
 
     if categories.present?
       puts "--Update categories"
@@ -38,6 +37,12 @@ task :update_seo_params => :environment do
         subcategory.meta_keywords = "#{subcategory.title}, #{category.title}" + " " + @subcategory_keywords.shuffle[0, 3+rand(3)].join(' ')
         subcategory.save
       end
+    end
+
+    if account.updated_categories.present?
+      account.updated_categories += categories.map(&:id) + subcategories.map(&:id)
+    else
+      account.updated_categories = categories.map(&:id) + subcategories.map(&:id)
     end
 
     puts "--Update products"
