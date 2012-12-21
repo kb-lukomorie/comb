@@ -12,9 +12,9 @@ task :update_seo_params => :environment do
 
     collections = InsalesApi::Collection.all
     catalog = collections.select{|c| c.parent_id == nil}.first
+    collections.delete_if {|c| account.updated_categories.include?(c.id)}  if account.updated_categories.present?
 
-    categories = collections.select {|c| c.parent_id == catalog.id} - account.updated_categories.to_a
-
+    categories = collections.select {|c| c.parent_id == catalog.id}
     subcategories = collections - [catalog] - categories
 
     if categories.present?
