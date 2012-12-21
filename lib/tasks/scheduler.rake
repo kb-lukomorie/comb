@@ -14,27 +14,39 @@ task :update_seo_params => :environment do
     catalog = collections.select{|c| c.parent_id == nil}.first
 
     categories = collections.select {|c| c.parent_id == catalog.id}
+    categories.select! {|c| c.created_at > account.last_updated.to_s}
     subcategories = collections - [catalog] - categories
+    subcategories.select! {|sc| sc.created_at > account.last_updated.to_s}
 
-    puts "--Update categories"
-    categories.each do |category|
-      category.html_title = category.title + ", " + @category_title.shuffle[0, 3+rand(3)].join(', ')
-      category.meta_description = category.title + ", " + @category_description.shuffle[0, 3+rand(3)].join(', ')
-      category.meta_keywords = category.title + " " + @category_keywords.shuffle[0, 3+rand(3)].join(' ')
-      category.save
+    if categories.present?
+      puts "--Update categories"
+      categories.each do |category|
+        category.html_title = category.title + ", " + @category_title.shuffle[0, 3+rand(3)].join(', ')
+        category.meta_description = category.title + ", " + @category_description.shuffle[0, 3+rand(3)].join(', ')
+        category.meta_keywords = category.title + " " + @category_keywords.shuffle[0, 3+rand(3)].join(' ')
+        category.save
+      end
     end
 
-    puts "--Update subcategories"
-    shop_name = "Интернет-магазин" #"Название магазина"
-    subcategories.each do |subcategory|
-      category = categories.find {|c| subcategory.parent_id == c.id}
-      subcategory.html_title = "#{subcategory.title}, #{category.title}, #{shop_name}"
-      subcategory.meta_description = "#{subcategory.title}, #{category.title}" + ", " + @subcategory_description.shuffle[0, 3+rand(3)].join(', ')
-      subcategory.meta_keywords = "#{subcategory.title}, #{category.title}" + " " + @subcategory_keywords.shuffle[0, 3+rand(3)].join(' ')
-      subcategory.save
+    if subcategories.present?
+      puts "--Update subcategories"
+      shop_name = "Интернет-магазин" #"Название магазина"
+      subcategories.each do |subcategory|
+        category = categories.find {|c| subcategory.parent_id == c.id}
+        subcategory.html_title = "#{subcategory.title}, #{category.title}, #{shop_name}"
+        subcategory.meta_description = "#{subcategory.title}, #{category.title}" + ", " + @subcategory_description.shuffle[0, 3+rand(3)].join(', ')
+        subcategory.meta_keywords = "#{subcategory.title}, #{category.title}" + " " + @subcategory_keywords.shuffle[0, 3+rand(3)].join(' ')
+        subcategory.save
+      end
     end
+
     puts "--Update products"
-    products = InsalesApi::Product.all
+    if account.last_updated.present?
+      products = InsalesApi::Product.find :all, params: {updated_since: account.last_updated.to_s}
+      products.select! {|p| p.created_at > account.last_updated.to_s}
+    else
+      products = InsalesApi::Product.all
+    end
     products.each do |product|
       collection_id = product.canonical_url_collection_id.present? ?
           product.canonical_url_collection_id :
