@@ -9,7 +9,7 @@ InsalesApp::Application.routes.draw do
 
   match '/install',   :to => 'insales_app#install',   :as => :install
   match '/uninstall', :to => 'insales_app#uninstall', :as => :uninstall
-  match '/login',     :to => 'sessions#new',          :as => :login
+  match '/login',     :to => 'sessions#create',          :as => :login
   match '/main',      :to => 'main#index',            :as => :main
   match '/seo_optimization', to: "main#seo_optimization", as: :seo_optimization
 
