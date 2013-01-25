@@ -11,7 +11,7 @@ task :shop_populate => :environment do
   iapp.authorize iapp.auth_token
   iapp.authorized?
 
-  CSV.foreach('products.csv', encoding: 'cp1251', headers: true) do |row|
+  CSV.foreach('products.csv', headers: true) do |row|
     title = row.field('bname')
     price = row.field('bopt').to_f
 
