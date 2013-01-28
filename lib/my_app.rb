@@ -4,7 +4,7 @@ class MyApp < InsalesApi::App
       shop = self.prepare_shop shop
       puts shop + '!!!!!!'
       return true if Account.find_by_insales_subdomain(shop)
-      a = Account.create(
+      a = Account.create!(
         :insales_subdomain  => shop,
         :password           => password_by_token(token),
         :insales_id         => insales_id
