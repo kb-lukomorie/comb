@@ -1,8 +1,8 @@
 class MyApp < InsalesApi::App
   class << self
     def install shop, token, insales_id
-      puts "#{shop}, #{token}, #{insales_id}"
-      puts password_by_token(token)
+      puts "$$$$#{shop.to_s}, #{token}, #{insales_id}"
+      puts "++++++#{password_by_token(token)}"
       shop = self.prepare_shop shop
       puts shop + '!!!!!!'
       return true if Account.find_by_insales_subdomain(shop)
