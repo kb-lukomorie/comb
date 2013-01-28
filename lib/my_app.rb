@@ -10,6 +10,7 @@ class MyApp < InsalesApi::App
         :insales_id         => insales_id
       )
       puts a.to_yaml
+      a
     end
 
     def uninstall shop, password
