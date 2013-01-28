@@ -2,12 +2,14 @@ class MyApp < InsalesApi::App
   class << self
     def install shop, token, insales_id
       shop = self.prepare_shop shop
+      puts shop + '!!!!!!'
       return true if Account.find_by_insales_subdomain(shop)
-      Account.create(
+      a = Account.create(
         :insales_subdomain  => shop,
         :password           => password_by_token(token),
         :insales_id         => insales_id
       )
+      puts a.to_yaml
     end
 
     def uninstall shop, password
