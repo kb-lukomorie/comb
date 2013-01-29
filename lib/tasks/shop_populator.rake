@@ -15,10 +15,10 @@ task :shop_populate => :environment do
     title = row.field('bname')
     price = row.field('bopt').to_f
 
-    product = InsalesApi::Product.create(category_id: 733197, title: title,
+    product = InsalesApi::Product.create(category_id: 734512, title: title,
                                          variants_attributes: {variant: {price: price}})
 
-    InsalesApi::Collect.create collection_id: 1189292, product_id: product.id
+    InsalesApi::Collect.create collection_id: 1196036, product_id: product.id
   end
 
 
