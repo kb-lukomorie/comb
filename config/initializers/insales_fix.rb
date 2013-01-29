@@ -1,0 +1,1 @@
+require 'lib/insales_api/resources/page'
