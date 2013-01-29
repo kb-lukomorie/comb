@@ -5,23 +5,12 @@ class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   before_filter :authentication, :configure_api
-  #before_filter :pp_session_and_params
 
   protected
-  def pp_session_and_params
-    #@account = Account.first
-    puts "!!!=============================="
-    pp session
-    puts "=============================="
-    pp params
-    puts "==============================!!!"
-  end
 
   def authentication
-    puts "authentication"
     if enter_from_different_shop?
       logout
-      puts "LLLLLLLLLLLLLLLLLLLLLLL"
     end
 
     if current_app and current_app.authorized?
@@ -31,7 +20,6 @@ class ApplicationController < ActionController::Base
     store_location
 
     if account_by_params
-      puts "***************************init_authorization account_by_params"
       init_authorization account_by_params
     else
       redirect_to login_path
@@ -48,9 +36,7 @@ class ApplicationController < ActionController::Base
 
   def init_authorization account
     session[:app] = MyApp.new(account.insales_subdomain, account.password)
-    pp session
     url = session[:app].authorization_url
-    pp url
     redirect_to url
   end
 
@@ -71,16 +57,11 @@ class ApplicationController < ActionController::Base
   end
 
   def account_by_params
-    puts "account_by_params"
-    pp @account
-    pp params
     @account ||= if params[:insales_id]
       Account.find_by_insales_id(params[:insales_id])
     else
       Account.find_by_insales_subdomain(params[:shop])
     end
-    pp @account
-    @account
   end
 
   def current_app
