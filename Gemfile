@@ -41,7 +41,7 @@ gem 'hoptoad_notifier'
 gem 'pg'
 gem 'haml'
 
-gem 'insales_api'
+gem 'insales_api', github: 'arturtr/insales_api'
 
 
 gem 'sqlite3', group: :development

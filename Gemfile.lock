@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/arturtr/insales_api.git
+  revision: ecd5a77cb70dc5dc21772a9c776cedfd81b6d859
+  specs:
+    insales_api (0.0.8)
+      activeresource (>= 3.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -66,8 +73,6 @@ GEM
       activesupport
       builder
     i18n (0.6.1)
-    insales_api (0.0.8)
-      activeresource (>= 3.0.0)
     journey (1.0.4)
     jquery-rails (2.2.0)
       railties (>= 3.0, < 5.0)
@@ -160,7 +165,7 @@ DEPENDENCIES
   faker
   haml
   hoptoad_notifier
-  insales_api
+  insales_api!
   jquery-rails
   json
   pg
