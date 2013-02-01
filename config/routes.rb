@@ -1,4 +1,9 @@
 InsalesApp::Application.routes.draw do
+  resources :profiles
+
+
+  resource :profile
+
   root :to => 'main#index'
 
   resource  :session do

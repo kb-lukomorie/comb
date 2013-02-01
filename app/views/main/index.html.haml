@@ -1,0 +1,4 @@
+- if @account.profile.new_record?
+  = render 'profiles/form'
+- else
+  = @account.profile.to_yaml

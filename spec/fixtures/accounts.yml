@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: accounts
+#
+#  id                 :integer          not null, primary key
+#  insales_subdomain  :text             not null
+#  password           :text             not null
+#  insales_id         :integer          not null
+#  created_at         :datetime
+#  updated_at         :datetime
+#  last_updated       :datetime
+#  updated_categories :text
+#
+
 default:
   id: 1
   insales_subdomain: 'myshop.myinsales.ru'

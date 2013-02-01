@@ -1,0 +1,36 @@
+%p#notice= notice
+
+%p
+  %b City:
+  = @profile.city
+%p
+  %b Shop name:
+  = @profile.shop_name
+%p
+  %b Shop description:
+  = @profile.shop_description
+%p
+  %b Delivery in russia:
+  = @profile.delivery_in_russia
+%p
+  %b Free delivery:
+  = @profile.free_delivery
+%p
+  %b Self delivery:
+  = @profile.self_delivery
+%p
+  %b Special url:
+  = @profile.special_url
+%p
+  %b Card payments:
+  = @profile.card_payments
+%p
+  %b Cashless:
+  = @profile.cashless
+%p
+  %b Account:
+  = @profile.account
+
+= link_to 'Edit', edit_profile_path(@profile)
+\|
+= link_to 'Back', profiles_path

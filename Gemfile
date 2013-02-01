@@ -2,14 +2,19 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.11'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
+gem 'strong_parameters'
+
+gem 'russian'
+
+gem 'formtastic'
+gem 'formtastic-bootstrap'
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
+  gem 'twitter-bootstrap-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
@@ -18,15 +23,6 @@ group :assets do
 end
 
 gem 'jquery-rails'
-
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
-
-# Use unicorn as the app server
-# gem 'unicorn'
 
 # Deploy with Capistrano
 gem 'capistrano'
@@ -39,11 +35,16 @@ gem 'rspec'
 gem 'rspec-rails'
 gem 'hoptoad_notifier'
 gem 'pg'
-gem 'haml'
+gem 'haml-rails'
 
 gem 'insales_api', github: 'arturtr/insales_api'
 
-
-gem 'sqlite3', group: :development
+group :development do
+  gem 'annotate'
+  gem 'sqlite3'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'meta_request'
+end
 gem 'debugger', group: [:development, :test]
 gem 'faker'

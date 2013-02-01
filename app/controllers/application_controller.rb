@@ -67,4 +67,5 @@ class ApplicationController < ActionController::Base
   def current_app
     session[:app]
   end
+
 end

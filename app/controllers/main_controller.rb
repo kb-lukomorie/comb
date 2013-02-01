@@ -1,6 +1,7 @@
 # coding: utf-8
 class MainController < ApplicationController
   def index
+    @profile = @account.build_profile unless @account.profile.present?
 
   end
 
@@ -15,6 +16,6 @@ class MainController < ApplicationController
       product.meta_description = "#{product.title}, #{product.short_description}"
       product.save
     end
-    redirect_to root_path, notice: "Оптимизация успешно завершена"
+    redirect_to root_path, notice: 'Оптимизация успешно завершена'
   end
 end

@@ -34,7 +34,6 @@
         %h1
           = link_to(image_tag('back_ico.png', :style => "margin-bottom:-5px", :alt => "На предыдущую страницу", :title => "На предыдущую страницу"), @back) if @back
         #page_title{:style => "display:inline;"}= @title
-        </h1>
         - if @links
           #subtitle_links= @links
         = flash_messages
