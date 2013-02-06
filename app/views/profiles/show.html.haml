@@ -1,36 +1,31 @@
-%p#notice= notice
-
 %p
-  %b City:
+  %b= t 'activerecord.attributes.profile.city'
   = @profile.city
 %p
-  %b Shop name:
+  %b= t 'activerecord.attributes.profile.shop_name'
   = @profile.shop_name
 %p
-  %b Shop description:
+  %b= t 'activerecord.attributes.profile.shop_description'
   = @profile.shop_description
 %p
-  %b Delivery in russia:
-  = @profile.delivery_in_russia
+  %b= t 'activerecord.attributes.profile.delivery_in_russia'
+  = yes_no @profile.delivery_in_russia
 %p
-  %b Free delivery:
-  = @profile.free_delivery
+  %b= t 'activerecord.attributes.profile.free_delivery'
+  = yes_no @profile.free_delivery
 %p
-  %b Self delivery:
-  = @profile.self_delivery
+  %b= t 'activerecord.attributes.profile.self_delivery'
+  = yes_no @profile.self_delivery
 %p
-  %b Special url:
+  %b= t 'activerecord.attributes.profile.special_url'
   = @profile.special_url
 %p
-  %b Card payments:
-  = @profile.card_payments
+  %b= t 'activerecord.attributes.profile.card_payments'
+  = yes_no @profile.card_payments
 %p
-  %b Cashless:
-  = @profile.cashless
-%p
-  %b Account:
-  = @profile.account
+  %b= t 'activerecord.attributes.profile.cashless'
+  = yes_no @profile.cashless
 
-= link_to 'Edit', edit_profile_path(@profile)
-\|
-= link_to 'Back', profiles_path
+
+= link_to 'Редактировать', edit_profile_path(@profile)
+

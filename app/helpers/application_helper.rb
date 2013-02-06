@@ -20,6 +20,10 @@ module ApplicationHelper
   end
 
   def app_name
-    'Мое приложение'
+    'SEO-оптимизация от InBreak'
+  end
+
+  def yes_no is_true
+    is_true ? 'Да' : 'Нет'
   end
 end

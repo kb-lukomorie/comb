@@ -1,4 +1,5 @@
 - if @account.profile.new_record?
+  %h1 Перед тем как мы начнём, заполните пожалуйста анкету
   = render 'profiles/form'
 - else
-  = @account.profile.to_yaml
+  = render template: 'profiles/show'

@@ -1,18 +1,16 @@
 = semantic_form_for @profile do |f|
   = f.inputs do
-    = f.input :city, label: 'В каком городе вы находитесь? (Если городов несколько укажите их через запятую)',
-                     hint: 'Пример: Москва'
-    = f.input :shop_name, label: 'Укажите название вашего интернет-магазина',
-                          hint: 'Пример (www.kinderly.ru): Киндерли'
-    = f.input :shop_description, label: 'Магазин какой группы товаров у вас?', as: :string,
+    = f.input :city, hint: 'Пример: Москва'
+    = f.input :shop_name, hint: 'Пример (www.kinderly.ru): Киндерли'
+    = f.input :shop_description,  as: :string,
                           hint: 'Пример: Интернет-магазин мебели или интернет-магазин бытовой техники'
-    = f.input :delivery_in_russia, label: 'Есть ли у вас доставка по России?', as: :radio
-    = f.input :free_delivery, label: 'Платная или бесплатная у вас доставка?', as: :radio,
+    = f.input :delivery_in_russia,  as: :radio
+    = f.input :free_delivery,  as: :radio,
                           hint: 'Если доставка бесплатная на часть товаров выберете нет'
-    = f.input :self_delivery, label: 'Есть ли в вашем магазине точки самовывоза?', as: :radio
-    = f.input :special_url, label: 'Если у вас есть раздел со скидками/акциями укажите его URL',
-                          hint: 'Пример: http://www.kinderly.ru/collection/sale'
-    = f.input :card_payments, label: 'Принимаете ли вы оплату кредитными картами?', as: :radio
-    = f.input :cashless, label: 'Принимаете ли вы оплату по безналичному расчету?', as: :radio
+    = f.input :self_delivery,  as: :radio
+    = f.input :special_url, hint: 'Пример: http://www.kinderly.ru/collection/sale'
+    = f.input :card_payments,  as: :radio
+    = f.input :cashless,  as: :radio
   
-  = f.actions
+  = f.actions do
+    = f.action :submit, button_html: {class: 'btn'}

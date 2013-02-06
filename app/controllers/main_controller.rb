@@ -1,7 +1,7 @@
 # coding: utf-8
 class MainController < ApplicationController
   def index
-    @profile = @account.build_profile unless @account.profile.present?
+    @profile = @account.profile.present? ? @account.profile : @account.build_profile
 
   end
 
