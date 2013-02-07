@@ -1,14 +1,28 @@
 # coding: utf-8
 desc "This task is called by the Heroku scheduler add-on"
 task :update_seo_params => :environment do
-  Generator.all.each { |g| instance_variable_set "@#{g.name}", g.words}
   Account.all.each do |account|
     start_updating = Time.now
+
+    Generator.all.each { |g| instance_variable_set "@#{g.name}", g.words}
+
+    profile = account.profile
+
+    @category_title += [profile.city, profile.shop_name]
+    @category_description += [profile.city, profile.shop_name]
+
+    @subcategory_description += [profile.city, profile.shop_name]
+    @product_description += [profile.city, profile.shop_name]
+
     puts "Updating SEO params for #{account.insales_subdomain} at #{start_updating}"
     iapp = InsalesApi::App.new account.insales_subdomain, account.password
     iapp.configure_api
     iapp.store_auth_token
     iapp.authorize iapp.auth_token
+
+    puts 'Main page'
+    main_page = InsalesApi::Page.all.select {|p| p.is_main? }.first
+    main_page.html_title = "#{profile.shop_description} #{profile.shop_name} #{profile.city}"
 
     collections = InsalesApi::Collection.all
     catalog = collections.select{|c| c.parent_id == nil}.first
@@ -20,21 +34,20 @@ task :update_seo_params => :environment do
     if categories.present?
       puts "--Update categories"
       categories.each do |category|
-        category.html_title = category.title + ", " + @category_title.shuffle[0, 3+rand(3)].join(', ')
-        category.meta_description = category.title + ", " + @category_description.shuffle[0, 3+rand(3)].join(', ')
-        category.meta_keywords = category.title + " " + @category_keywords.shuffle[0, 3+rand(3)].join(' ')
+        category.html_title = category.title + ", " + @category_title.shuffle[0, 3].map { |e| e.class == Array ? e.shuffle.first : e }.join(', ')
+        category.meta_description = category.title + ", " + @category_description.shuffle.first
+        category.meta_keywords = category.title + " " + @category_keywords.shuffle.join(' ')
         category.save
       end
     end
 
     if subcategories.present?
       puts "--Update subcategories"
-      shop_name = "Интернет-магазин" #"Название магазина"
       subcategories.each do |subcategory|
         category = categories.find {|c| subcategory.parent_id == c.id}
-        subcategory.html_title = "#{subcategory.title}, #{category.title}, #{shop_name}"
-        subcategory.meta_description = "#{subcategory.title}, #{category.title}" + ", " + @subcategory_description.shuffle[0, 3+rand(3)].join(', ')
-        subcategory.meta_keywords = "#{subcategory.title}, #{category.title}" + " " + @subcategory_keywords.shuffle[0, 3+rand(3)].join(' ')
+        subcategory.html_title = "#{subcategory.title}, #{category.title}, " + @category_title.shuffle[0, 3].map { |e| e.class == Array ? e.shuffle.first : e }.join(', ')
+        subcategory.meta_description = "#{subcategory.title}, " + @subcategory_description.shuffle.first
+        subcategory.meta_keywords = "#{subcategory.title} #{category.title} " + @category_keywords.shuffle.join(' ')
         subcategory.save
       end
     end
@@ -46,25 +59,39 @@ task :update_seo_params => :environment do
     end
 
     puts "--Update products"
+    page = 1
     if account.last_updated.present?
-      products = InsalesApi::Product.find :all, params: {updated_since: account.last_updated.to_s}
+      products = InsalesApi::Product.all(params: {updated_since: account.last_updated.to_s, page: page, per_page: 250})
+      last_page = products.empty?
       products.select! {|p| p.created_at > account.last_updated.to_s}
     else
-      products = InsalesApi::Product.all
+      products = InsalesApi::Product.all(params: {page: page, per_page: 250})
+      last_page = products.empty?
     end
-    products.each do |product|
-      collection_id = product.canonical_url_collection_id.present? ?
-          product.canonical_url_collection_id :
-          InsalesApi::Collect.find(:first, params: {product_id: product.id}).collection_id
-      collection = InsalesApi::Collection.find collection_id
-      product.html_title = @product_title_prefix.shuffle[0, 3+rand(3)].join(', ') + ', ' +
-                           "#{product.title}, #{collection.title}, " +
-                           @product_title_suffix.shuffle[0, 3+rand(3)].join(', ')
-      product.meta_description = @product_description_prefix.shuffle[0, 3+rand(3)].join(', ') + ', ' +
-                                 "#{product.title}, #{collection.title}, " +
-                                 @product_description_suffix.shuffle[0, 3+rand(3)].join(', ')
-      product.meta_keywords = "#{product.title}, #{collection.title}, " + @product_keywords.shuffle[0, 3+rand(3)].join(' ')
-      product.save
+
+    until last_page
+      puts "#{Time.now}: #{page}"
+      products.each do |product|
+        collection_id = product.canonical_url_collection_id.present? ?
+            product.canonical_url_collection_id :
+            InsalesApi::Collect.find(:first, params: {product_id: product.id}).try(:collection_id)
+        if collection_id
+          collection = InsalesApi::Collection.find collection_id
+          product.html_title = "#{product.title}, #{collection.title}, " + @category_title.shuffle[0, 3].map { |e| e.class == Array ? e.shuffle.first : e }.join(', ')
+          product.meta_description = "#{product.title}, " + @product_description.shuffle.first
+          product.meta_keywords = "#{product.title}, #{collection.title}, " + @category_keywords.shuffle.join(' ')
+          product.save
+        end
+      end
+      page += 1
+      if account.last_updated.present?
+        products = InsalesApi::Product.all(params: {updated_since: account.last_updated.to_s, page: page, per_page: 250,})
+        last_page = products.empty?
+        products.select! {|p| p.created_at > account.last_updated.to_s}
+      else
+        products = InsalesApi::Product.all(params: {page: page, per_page: 250})
+        last_page = products.empty?
+      end
     end
     account.update_attribute :last_updated, start_updating
   end

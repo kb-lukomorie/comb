@@ -24,3 +24,39 @@ task :shop_populate => :environment do
 
   puts "done."
 end
+
+task :public_products => :environment do
+  a = Account.first
+  iapp = InsalesApi::App.new a.insales_subdomain, a.password
+  iapp.configure_api
+  iapp.store_auth_token
+  iapp.authorize iapp.auth_token
+
+  # books
+  puts 'books'
+  page = 14
+  products = InsalesApi::Product.all(params: {page: page, per_page: 250, category_id: 737743})
+
+  until products.empty?
+    puts "#{Time.now}: #{page}"
+    products.each do |product|
+      InsalesApi::Collect.create collection_id: 1189292, product_id: product.id
+    end
+    page += 1
+    products = InsalesApi::Product.all(params: {page: page, per_page: 250, category_id: 737743})
+  end
+
+  # tech
+  puts 'tech'
+  page = 1
+  products = InsalesApi::Product.all(params: {page: page, per_page: 250, category_id: 737738})
+
+  until products.empty?
+    puts "#{Time.now}: #{page}"
+    products.each do |product|
+      InsalesApi::Collect.create collection_id: 1058155, product_id: product.id
+    end
+    page += 1
+    products = InsalesApi::Product.all(params: {page: page, per_page: 250, category_id: 737738})
+  end
+end
