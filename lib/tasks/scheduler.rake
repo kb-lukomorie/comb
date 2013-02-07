@@ -23,6 +23,7 @@ task :update_seo_params => :environment do
     puts 'Main page'
     main_page = InsalesApi::Page.all.select {|p| p.is_main? }.first
     main_page.html_title = "#{profile.shop_description} #{profile.shop_name} #{profile.city}"
+    main_page.save
 
     collections = InsalesApi::Collection.all
     catalog = collections.select{|c| c.parent_id == nil}.first
