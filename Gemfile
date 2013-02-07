@@ -28,6 +28,8 @@ gem 'jquery-rails'
 gem 'capistrano'
 gem 'capistrano-ext'
 
+gem 'newrelic_rpm'
+
 # To use debugger
 # gem 'debugger'
 gem 'json'
