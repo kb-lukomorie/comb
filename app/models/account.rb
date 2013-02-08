@@ -19,5 +19,5 @@ class Account < ActiveRecord::Base
   validates_presence_of :insales_subdomain
   validates_presence_of :password
 
-  has_one :profile
+  has_one :profile, dependent: :destroy
 end
