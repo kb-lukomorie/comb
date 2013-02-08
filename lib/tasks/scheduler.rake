@@ -58,15 +58,16 @@ task :update_seo_params => :environment do
     else
       account.updated_categories = categories.map(&:id) + subcategories.map(&:id)
     end
+    account.save
 
     puts "--Update products"
     page = 1
     if account.last_updated.present?
-      products = InsalesApi::Product.all(params: {updated_since: account.last_updated.to_s, page: page, per_page: 250})
+      products = InsalesApi::Product.all(params: {updated_since: account.last_updated.to_s, page: page, per_page: 50})
       last_page = products.empty?
       products.select! {|p| p.created_at > account.last_updated.to_s}
     else
-      products = InsalesApi::Product.all(params: {page: page, per_page: 250})
+      products = InsalesApi::Product.all(params: {page: page, per_page: 50})
       last_page = products.empty?
     end
 
@@ -81,16 +82,16 @@ task :update_seo_params => :environment do
           product.html_title = "#{product.title}, #{collection.title}, " + @category_title.shuffle[0, 3].map { |e| e.class == Array ? e.shuffle.first : e }.join(', ')
           product.meta_description = "#{product.title}, " + @product_description.shuffle.first
           product.meta_keywords = "#{product.title}, #{collection.title}, " + @category_keywords.shuffle.join(' ')
-          product.save
+          product.save!
         end
       end
       page += 1
       if account.last_updated.present?
-        products = InsalesApi::Product.all(params: {updated_since: account.last_updated.to_s, page: page, per_page: 250,})
+        products = InsalesApi::Product.all(params: {updated_since: account.last_updated.to_s, page: page, per_page: 50})
         last_page = products.empty?
         products.select! {|p| p.created_at > account.last_updated.to_s}
       else
-        products = InsalesApi::Product.all(params: {page: page, per_page: 250})
+        products = InsalesApi::Product.all(params: {page: page, per_page: 50})
         last_page = products.empty?
       end
     end
