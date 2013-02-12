@@ -26,13 +26,13 @@
             .tabLeftCorner
             .tabContent= link_to image_tag('home_inactive_icon.png', :title => 'Вернуться в магазин', :alt => 'Вернуться в магазин'), home_path
             .tabRightCorner
-          .activeTab
+          %div{class: params[:action] == 'description' ? 'Tab' : 'activeTab'}
             .tabLeftCorner
             .tabContent= link_to app_name, root_path
             .tabRightCorner
-          .Tab
+          %div{class: params[:action] == 'description' ? 'activeTab' : 'Tab'}
             .tabLeftCorner
-            .tabContent= link_to 'Описание приложения', root_path
+            .tabContent= link_to 'Описание приложения', description_path
             .tabRightCorner
       .content
         %h1
