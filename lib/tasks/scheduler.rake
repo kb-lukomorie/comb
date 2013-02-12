@@ -1,12 +1,12 @@
 # coding: utf-8
 desc "This task is called by the Heroku scheduler add-on"
 task :update_seo_params => :environment do
-  Account.all.each do |account|
+  Profile.all.each do |profile|
     start_updating = Time.now
 
     Generator.all.each { |g| instance_variable_set "@#{g.name}", g.words}
 
-    profile = account.profile
+    account = profile.account
 
     @category_title += [profile.city, profile.shop_name]
     @category_description += [profile.city, profile.shop_name]
@@ -20,10 +20,12 @@ task :update_seo_params => :environment do
     iapp.store_auth_token
     iapp.authorize iapp.auth_token
 
-    puts 'Main page'
     main_page = InsalesApi::Page.all.select {|p| p.is_main? }.first
-    main_page.html_title = "#{profile.shop_description} #{profile.shop_name} #{profile.city}"
-    main_page.save
+    if main_page.html_title.empty?
+      main_page.html_title = "#{profile.shop_description} #{profile.shop_name} #{profile.city}"
+      main_page.save
+      puts 'Main page updated'
+    end
 
     collections = InsalesApi::Collection.all
     catalog = collections.select{|c| c.parent_id == nil}.first
@@ -35,10 +37,12 @@ task :update_seo_params => :environment do
     if categories.present?
       puts "--Update categories"
       categories.each do |category|
-        category.html_title = category.title + ", " + @category_title.shuffle[0, 3].map { |e| e.class == Array ? e.shuffle.first : e }.join(', ')
-        category.meta_description = category.title + ", " + @category_description.shuffle.first
-        category.meta_keywords = category.title + " " + @category_keywords.shuffle.join(' ')
-        category.save
+        html_title = category.title + ", " + @category_title.shuffle[0, 3].map { |e| e.class == Array ? e.shuffle.first : e }.join(', ')
+        meta_description = category.title + ", " + @category_description.shuffle.first
+        meta_keywords = category.title + " " + @category_keywords.shuffle.join(' ')
+        category.update_empty_attributes(html_title: html_title,
+                                         meta_description: meta_description,
+                                         meta_keywords: meta_keywords)
       end
     end
 
@@ -46,10 +50,12 @@ task :update_seo_params => :environment do
       puts "--Update subcategories"
       subcategories.each do |subcategory|
         category = categories.find {|c| subcategory.parent_id == c.id}
-        subcategory.html_title = "#{subcategory.title}, #{category.title}, " + @category_title.shuffle[0, 3].map { |e| e.class == Array ? e.shuffle.first : e }.join(', ')
-        subcategory.meta_description = "#{subcategory.title}, " + @subcategory_description.shuffle.first
-        subcategory.meta_keywords = "#{subcategory.title} #{category.title} " + @category_keywords.shuffle.join(' ')
-        subcategory.save
+        html_title = "#{subcategory.title}, #{category.title}, " + @category_title.shuffle[0, 3].map { |e| e.class == Array ? e.shuffle.first : e }.join(', ')
+        meta_description = "#{subcategory.title}, " + @subcategory_description.shuffle.first
+        meta_keywords = "#{subcategory.title} #{category.title} " + @category_keywords.shuffle.join(' ')
+        subcategory.update_empty_attributes(html_title: html_title,
+                                            meta_description: meta_description,
+                                            meta_keywords: meta_keywords)
       end
     end
 
@@ -79,10 +85,12 @@ task :update_seo_params => :environment do
             InsalesApi::Collect.find(:first, params: {product_id: product.id}).try(:collection_id)
         if collection_id
           collection = InsalesApi::Collection.find collection_id
-          product.html_title = "#{product.title}, #{collection.title}, " + @category_title.shuffle[0, 3].map { |e| e.class == Array ? e.shuffle.first : e }.join(', ')
-          product.meta_description = "#{product.title}, " + @product_description.shuffle.first
-          product.meta_keywords = "#{product.title}, #{collection.title}, " + @category_keywords.shuffle.join(' ')
-          product.save!
+          html_title = "#{product.title}, #{collection.title}, " + @category_title.shuffle[0, 3].map { |e| e.class == Array ? e.shuffle.first : e }.join(', ')
+          meta_description = "#{product.title}, " + @product_description.shuffle.first
+          meta_keywords = "#{product.title}, #{collection.title}, " + @category_keywords.shuffle.join(' ')
+          product.update_empty_attributes( html_title: html_title,
+                                           meta_description: meta_description,
+                                           meta_keywords: meta_keywords)
         end
       end
       page += 1

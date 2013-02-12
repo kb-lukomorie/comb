@@ -30,6 +30,10 @@
             .tabLeftCorner
             .tabContent= link_to app_name, root_path
             .tabRightCorner
+          .Tab
+            .tabLeftCorner
+            .tabContent= link_to 'Описание приложения', root_path
+            .tabRightCorner
       .content
         %h1
           = link_to(image_tag('back_ico.png', :style => "margin-bottom:-5px", :alt => "На предыдущую страницу", :title => "На предыдущую страницу"), @back) if @back
@@ -43,7 +47,7 @@
           %p
             \&copy;
             = succeed "," do
-              %span{:style => "color: #752F16; font-weight: bold;"} InSales
+              %span{:style => "color: #752F16; font-weight: bold;"}= link_to 'Cделано в SEO студии INBreak.ru', 'http://inbreak.ru/'
             2013. &nbsp;|&nbsp;
             %a{:href => "http://www.insales.ru/terms"} Условия предоставления услуг
 

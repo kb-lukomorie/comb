@@ -20,7 +20,7 @@ module ApplicationHelper
   end
 
   def app_name
-    'SEO-оптимизация от InBreak'
+    'SEO-оптимизация'
   end
 
   def yes_no is_true

@@ -1,10 +1,8 @@
 InsalesApp::Application.routes.draw do
+
+  root to: 'pages#main'
+
   resources :profiles
-
-
-  resource :profile
-
-  root :to => 'main#index'
 
   resource  :session do
     collection do
@@ -12,12 +10,10 @@ InsalesApp::Application.routes.draw do
     end
   end
 
-  match '/install',   :to => 'insales_app#install',   :as => :install
-  match '/uninstall', :to => 'insales_app#uninstall', :as => :uninstall
-  match '/login',     :to => 'sessions#create',          :as => :login
-  match '/main',      :to => 'main#index',            :as => :main
-  match '/seo_optimization', to: "main#seo_optimization", as: :seo_optimization
+  match '/install',     to: 'insales_app#install',   as: :install
+  match '/uninstall',   to: 'insales_app#uninstall', as: :uninstall
+  match '/login',       to: 'sessions#create',       as: :login
+  match '/main',        to: 'pages#main',            as: :main
+  match '/description', to: 'pages#description',     as: :description
 
-  match ':controller/:action/:id'
-  match ':controller/:action/:id.:format'
 end
