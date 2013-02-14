@@ -10,11 +10,13 @@
 #  updated_at         :datetime
 #  last_updated       :datetime
 #  updated_categories :text
+#  fail_products      :text
 #
 
 class Account < ActiveRecord::Base
-  attr_accessible :last_updated, :updated_categories, :insales_subdomain, :password, :insales_id
+  attr_accessible :last_updated, :updated_categories, :fail_products, :insales_subdomain, :password, :insales_id
   serialize :updated_categories
+  serialize :fail_products
   validates_presence_of :insales_id
   validates_presence_of :insales_subdomain
   validates_presence_of :password

@@ -10,6 +10,7 @@
 #  updated_at         :datetime
 #  last_updated       :datetime
 #  updated_categories :text
+#  fail_products      :text
 #
 
 default:

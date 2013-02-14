@@ -4,7 +4,7 @@ task :update_seo_params => :environment do
   Profile.all.each do |profile|
     start_updating = Time.now
 
-    Generator.all.each { |g| instance_variable_set "@#{g.name}", g.words}
+    Generator.all.each { |g| instance_variable_set "@#{g.name}", g.words }
 
     account = profile.account
 
@@ -20,7 +20,7 @@ task :update_seo_params => :environment do
     iapp.store_auth_token
     iapp.authorize iapp.auth_token
 
-    main_page = InsalesApi::Page.all.select {|p| p.is_main? }.first
+    main_page = InsalesApi::Page.all.select { |p| p.is_main? }.first
     if main_page.html_title.empty?
       main_page.html_title = "#{profile.shop_description} #{profile.shop_name} #{profile.city}"
       main_page.save
@@ -28,10 +28,10 @@ task :update_seo_params => :environment do
     end
 
     collections = InsalesApi::Collection.all
-    catalog = collections.select{|c| c.parent_id == nil}.first
-    collections.delete_if {|c| account.updated_categories.include?(c.id)}  if account.updated_categories.present?
+    catalog = collections.select { |c| c.parent_id == nil }.first
+    collections.delete_if { |c| account.updated_categories.include?(c.id) } if account.updated_categories.present?
 
-    categories = collections.select {|c| c.parent_id == catalog.id}
+    categories = collections.select { |c| c.parent_id == catalog.id }
     subcategories = collections - [catalog] - categories
 
     if categories.present?
@@ -49,7 +49,7 @@ task :update_seo_params => :environment do
     if subcategories.present?
       puts "--Update subcategories"
       subcategories.each do |subcategory|
-        category = categories.find {|c| subcategory.parent_id == c.id}
+        category = categories.find { |c| subcategory.parent_id == c.id }
         html_title = "#{subcategory.title}, #{category.title}, " + @category_title.shuffle[0, 3].map { |e| e.class == Array ? e.shuffle.first : e }.join(', ')
         meta_description = "#{subcategory.title}, " + @subcategory_description.shuffle.first
         meta_keywords = "#{subcategory.title} #{category.title} " + @category_keywords.shuffle.join(' ')
@@ -71,7 +71,7 @@ task :update_seo_params => :environment do
     if account.last_updated.present?
       products = InsalesApi::Product.all(params: {updated_since: account.last_updated.to_s, page: page, per_page: 50})
       last_page = products.empty?
-      products.select! {|p| p.created_at > account.last_updated.to_s}
+      products.select! { |p| p.created_at > account.last_updated.to_s }
     else
       products = InsalesApi::Product.all(params: {page: page, per_page: 50})
       last_page = products.empty?
@@ -84,20 +84,29 @@ task :update_seo_params => :environment do
             product.canonical_url_collection_id :
             InsalesApi::Collect.find(:first, params: {product_id: product.id}).try(:collection_id)
         if collection_id
-          collection = InsalesApi::Collection.find collection_id
-          html_title = "#{product.title}, #{collection.title}, " + @category_title.shuffle[0, 3].map { |e| e.class == Array ? e.shuffle.first : e }.join(', ')
-          meta_description = "#{product.title}, " + @product_description.shuffle.first
-          meta_keywords = "#{product.title}, #{collection.title}, " + @category_keywords.shuffle.join(' ')
-          product.update_empty_attributes( html_title: html_title,
-                                           meta_description: meta_description,
-                                           meta_keywords: meta_keywords)
+          begin
+            #puts "#{product.id}-#{collection_id}"
+            collection = InsalesApi::Collection.find collection_id
+            html_title = "#{product.title}, #{collection.title}, " + @category_title.shuffle[0, 3].map { |e| e.class == Array ? e.shuffle.first : e }.join(', ')
+            meta_description = "#{product.title}, " + @product_description.shuffle.first
+            meta_keywords = "#{product.title}, #{collection.title}, " + @category_keywords.shuffle.join(' ')
+          rescue ActiveResource::ResourceNotFound
+            puts "Collection #{collection_id} for product #{product.id} is not found"
+            account.fail_products.nil? ? account.fail_products = [product.id] : account.fail_products << product.id
+            html_title = "#{product.title}, " + @category_title.shuffle[0, 3].map { |e| e.class == Array ? e.shuffle.first : e }.join(', ')
+            meta_description = "#{product.title}, " + @product_description.shuffle.first
+            meta_keywords = "#{product.title}, " + @category_keywords.shuffle.join(' ')
+          end
+          product.update_empty_attributes(html_title: html_title,
+                                          meta_description: meta_description,
+                                          meta_keywords: meta_keywords)
         end
       end
       page += 1
       if account.last_updated.present?
         products = InsalesApi::Product.all(params: {updated_since: account.last_updated.to_s, page: page, per_page: 50})
         last_page = products.empty?
-        products.select! {|p| p.created_at > account.last_updated.to_s}
+        products.select! { |p| p.created_at > account.last_updated.to_s }
       else
         products = InsalesApi::Product.all(params: {page: page, per_page: 50})
         last_page = products.empty?
