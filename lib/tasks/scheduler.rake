@@ -49,7 +49,7 @@ task :update_seo_params => :environment do
     if subcategories.present?
       puts "--Update subcategories"
       subcategories.each do |subcategory|
-        category = categories.find { |c| subcategory.parent_id == c.id }
+        category = (categories+subcategories).find { |c| subcategory.parent_id == c.id }
         html_title = "#{subcategory.title}, #{category.title}, " + @category_title.shuffle[0, 3].map { |e| e.class == Array ? e.shuffle.first : e }.join(', ')
         meta_description = "#{subcategory.title}, " + @subcategory_description.shuffle.first
         meta_keywords = "#{subcategory.title} #{category.title} " + @category_keywords.shuffle.join(' ')
