@@ -49,10 +49,20 @@ task :update_seo_params => :environment do
     if subcategories.present?
       puts "--Update subcategories"
       subcategories.each do |subcategory|
-        category = (categories+subcategories).find { |c| subcategory.parent_id == c.id }
-        html_title = "#{subcategory.title}, #{category.title}, " + @category_title.shuffle[0, 3].map { |e| e.class == Array ? e.shuffle.first : e }.join(', ')
-        meta_description = "#{subcategory.title}, " + @subcategory_description.shuffle.first
-        meta_keywords = "#{subcategory.title} #{category.title} " + @category_keywords.shuffle.join(' ')
+        begin
+          category = InsalesApi::Collection.find subcategory.parent_id
+          html_title = "#{subcategory.title}, #{category.title}, " + @category_title.shuffle[0, 3].map { |e| e.class == Array ? e.shuffle.first : e }.join(', ')
+          meta_description = "#{subcategory.title}, " + @subcategory_description.shuffle.first
+          meta_keywords = "#{subcategory.title} #{category.title} " + @category_keywords.shuffle.join(' ')
+        rescue ActiveResource::ResourceNotFound
+          puts "Collection #{subcategory.parent_id} for subcategory #{subcategory.id} is not found"
+
+          account.fail_subcategories.nil? ? account.fail_subcategories = [subcategory.id] : account.fail_subcategories << subcategory.id
+
+          html_title = "#{product.title}, " + @category_title.shuffle[0, 3].map { |e| e.class == Array ? e.shuffle.first : e }.join(', ')
+          meta_description = "#{product.title}, " + @product_description.shuffle.first
+          meta_keywords = "#{product.title}, " + @category_keywords.shuffle.join(' ')
+        end
         subcategory.update_empty_attributes(html_title: html_title,
                                             meta_description: meta_description,
                                             meta_keywords: meta_keywords)
