@@ -21,7 +21,7 @@ task :update_seo_params => :environment do
     iapp.authorize iapp.auth_token
 
     main_page = InsalesApi::Page.all.select { |p| p.is_main? }.first
-    if main_page.html_title.empty?
+    if main_page.html_title.blank?
       main_page.html_title = "#{profile.shop_description} #{profile.shop_name} #{profile.city}"
       main_page.save
       puts 'Main page updated'
