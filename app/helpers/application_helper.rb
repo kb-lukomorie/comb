@@ -20,7 +20,7 @@ module ApplicationHelper
   end
 
   def app_name
-    'SEO-оптимизация'
+    'Comb: поисковая оптимизация вашего магазина'
   end
 
   def yes_no is_true

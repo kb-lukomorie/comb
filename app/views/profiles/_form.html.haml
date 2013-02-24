@@ -13,4 +13,7 @@
     = f.input :cashless,  as: :radio
   
   = f.actions do
-    = f.action :submit, button_html: {class: 'btn'}
+    = f.action :submit, label: 'Сохранить', button_html: {class: 'btn'}
+#hint
+  %p Заполните, пожалуйста, все графы. После этого нажмите "Сохранить".
+  %p Если вы затрудняетесь с ответом вопрос из какой-то графы, пропустите её.

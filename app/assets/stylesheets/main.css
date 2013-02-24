@@ -73,7 +73,7 @@ h3 input, h3 textarea {font-weight:bold; font-size:140%}
 .reflang {color: gray; font-size: 90%; margin-left: 0.5em;}
 
 /* page layout */
-.head {background-color: #252525; background-image: url('/assets/head_bgrnd.gif'); background-repeat: repeat-x; height: 77px;}
+.head {background-color: #252525; background-image: url('/assets/head_bgrnd.gif'); background-repeat: repeat-x; height: 80px;}
 .head a {color: #7eb6a5; text-decoration: underline;}
 .head a:visited {color: #7eb6a5; text-decoration: underline;}
 .head a:hover 	{text-decoration: none;}
@@ -86,7 +86,7 @@ h3 input, h3 textarea {font-weight:bold; font-size:140%}
 .rightHead p {margin-top: 0px; margin-bottom:5px; text-align: right;}
 .rightHead .unreaded_messages_notification {padding-right:7px; padding-top:3px; font-size: 80%}
 
-.leftTabs  {height: 30px; position: absolute; top: 47px; left: 30px;}
+/*.leftTabs  {height: 30px; position: absolute; top: 47px; left: 30px;}*/
 .rightTabs {position: absolute; top: 57px; right: 15px;}
 
 .Tab, .activeTab {float: left; margin-right: 1px;}

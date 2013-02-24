@@ -28,11 +28,11 @@
             .tabRightCorner
           %div{class: params[:action] == 'description' ? 'Tab' : 'activeTab'}
             .tabLeftCorner
-            .tabContent= link_to app_name, root_path
+            .tabContent= link_to 'Ваша Анкета', root_path
             .tabRightCorner
           %div{class: params[:action] == 'description' ? 'activeTab' : 'Tab'}
             .tabLeftCorner
-            .tabContent= link_to 'Описание приложения', description_path
+            .tabContent= link_to 'Описание Приложения', description_path
             .tabRightCorner
       .content
         %h1
