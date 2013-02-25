@@ -24,7 +24,7 @@ class ProfilesController < ApplicationController
 
   # GET /profiles/1/edit
   def edit
-    @profile = Profile.find(params[:id])
+    @profile = account_by_params.profile
   end
 
   # POST /profiles

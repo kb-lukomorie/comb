@@ -2,7 +2,8 @@ InsalesApp::Application.routes.draw do
 
   root to: 'pages#main'
 
-  resources :profiles
+  resources :profiles, only: [:show, :update]
+  match '/edit_profile', to: 'profiles#edit', as: :edit_profile
 
   resource  :session do
     collection do
