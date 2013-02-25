@@ -16,4 +16,5 @@ InsalesApp::Application.routes.draw do
   match '/main',        to: 'pages#main',            as: :main
   match '/description', to: 'pages#description',     as: :description
 
+  mount Resque::Server, at: '/resque'
 end

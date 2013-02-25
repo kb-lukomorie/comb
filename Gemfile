@@ -30,9 +30,6 @@ gem 'capistrano-ext'
 
 gem 'json'
 
-gem 'rspec'
-gem 'rspec-rails'
-
 gem 'exception_notification'
 gem 'newrelic_rpm'
 
@@ -50,7 +47,13 @@ group :development do
   gem 'localtunnel'
   gem 'letter_opener'
 end
-gem 'debugger', group: [:development, :test]
+
+group :development, :test do
+  gem 'debugger'
+  gem 'rspec-rails'
+end
+
 gem 'faker'
 
-gem 'delayed_job_active_record'
+gem 'resque', require: 'resque/server'
+
