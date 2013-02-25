@@ -28,18 +28,18 @@ gem 'jquery-rails'
 gem 'capistrano'
 gem 'capistrano-ext'
 
-gem 'newrelic_rpm'
-
-# To use debugger
-# gem 'debugger'
 gem 'json'
+
 gem 'rspec'
 gem 'rspec-rails'
-gem 'hoptoad_notifier'
+
+gem 'exception_notification'
+gem 'newrelic_rpm'
+
 gem 'pg'
 gem 'haml-rails'
 
-gem 'insales_api', github: 'arturtr/insales_api'
+gem 'insales_api'
 
 group :development do
   gem 'annotate'
@@ -48,6 +48,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'meta_request'
   gem 'localtunnel'
+  gem 'letter_opener'
 end
 gem 'debugger', group: [:development, :test]
 gem 'faker'
