@@ -6,8 +6,11 @@ class ProfilesController < ApplicationController
     @profile = Profile.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @profile }
+      if @profile == account_by_params.profile
+        format.html # show.html.erb
+      else
+        format.html {redirect_to root_path}
+      end
     end
   end
 
