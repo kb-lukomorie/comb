@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.11'
+gem 'rails', '3.2.12'
 
 gem 'strong_parameters'
 
@@ -51,3 +51,5 @@ group :development do
 end
 gem 'debugger', group: [:development, :test]
 gem 'faker'
+
+gem 'delayed_job_active_record'
