@@ -1,10 +1,9 @@
 # coding: utf-8
 class ProfilesController < ApplicationController
   def index
-    respond_to do |format|
-      format.html { redirect_to root_path }
-    end
+    redirect_to root_path
   end
+
   def show
     @profile = Profile.find(params[:id])
 
