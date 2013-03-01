@@ -24,14 +24,16 @@ end
 
 gem 'jquery-rails'
 
+# Use unicorn as the app server
+gem 'unicorn'
+
 # Deploy with Capistrano
 gem 'capistrano'
-gem 'capistrano-ext'
 
 gem 'json'
 
 gem 'exception_notification'
-gem 'newrelic_rpm'
+#gem 'newrelic_rpm'
 
 gem 'pg'
 gem 'haml-rails'
