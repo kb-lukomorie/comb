@@ -1,7 +1,10 @@
 # coding: utf-8
 class ProfilesController < ApplicationController
-  # GET /profiles/1
-  # GET /profiles/1.json
+  def index
+    respond_to do |format|
+      format.html { redirect_to root_path }
+    end
+  end
   def show
     @profile = Profile.find(params[:id])
 
