@@ -11,6 +11,11 @@ set :deploy_to, "/home/#{user}/apps/#{application}"
 set :deploy_via, :remote_cache
 set :use_sudo, false
 
+role :resque_worker, application
+role :resque_scheduler, application
+
+set :workers, { "*" => 5 }
+
 set :scm, "git"
 set :repository, 'git@github.com:kb-lukomorie/comb.git'
 set :branch, "master"
@@ -19,6 +24,7 @@ default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
 after "deploy", "deploy:cleanup" # keep only the last 5 releases
+after "deploy:restart", "resque:restart"
 
 namespace :deploy do
   %w[start stop restart].each do |command|

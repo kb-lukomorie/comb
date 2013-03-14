@@ -57,5 +57,6 @@ end
 
 gem 'faker'
 
-gem 'resque', require: 'resque/server'
+gem 'resque', :git => 'git://github.com/defunkt/resque.git', :branch => '1-x-stable', require: 'resque/server'
+gem 'capistrano-resque', '~> 0.1.0'
 gem 'whenever', require: false
