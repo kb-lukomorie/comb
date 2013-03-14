@@ -110,7 +110,7 @@ class SeoFixer
       end
       page += 1
       if account.last_updated.present?
-        products = InsalesApi::Product.all(params: {updated_since: account.last_updated.to_s, page: page, per_page: 50})
+        products = InsalesApi::Product.all(params: {updated_since: time, page: page, per_page: 50})
         last_page = products.empty?
         products.select! { |p| p.created_at.to_time > time }
       else
