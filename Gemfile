@@ -58,4 +58,4 @@ end
 gem 'faker'
 
 gem 'resque', require: 'resque/server'
-
+gem 'whenever', require: false
