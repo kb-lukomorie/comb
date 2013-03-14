@@ -78,7 +78,7 @@ class SeoFixer
       last_page = products.empty?
       products.select! { |p| p.created_at.to_time > time }
     else
-      products = InsalesApi::Product.all(params: {page: page, per_page: 50})
+      products = InsalesApi::Product.all(params: {page: 1, per_page: 50})
       last_page = products.empty?
     end
 

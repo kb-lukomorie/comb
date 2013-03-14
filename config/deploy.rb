@@ -16,7 +16,7 @@ set :use_sudo, false
 role :resque_worker, app_domain
 role :resque_scheduler, app_domain
 
-set :workers, { "*" => 5 }
+set :workers, { "*" => 3 }
 
 set :scm, "git"
 set :repository, 'git@github.com:kb-lukomorie/comb.git'
