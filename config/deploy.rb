@@ -1,6 +1,8 @@
 require 'bundler/capistrano'
 
-server '198.211.127.17', :web, :app, :db, primary: true
+set :app_domain, '198.211.127.17'
+
+server app_domain, :web, :app, :db, primary: true
 
 set :whenever_command, 'bundle exec whenever'
 require 'whenever/capistrano'
@@ -11,8 +13,8 @@ set :deploy_to, "/home/#{user}/apps/#{application}"
 set :deploy_via, :remote_cache
 set :use_sudo, false
 
-role :resque_worker, application
-role :resque_scheduler, application
+role :resque_worker, app_domain
+role :resque_scheduler, app_domain
 
 set :workers, { "*" => 5 }
 
