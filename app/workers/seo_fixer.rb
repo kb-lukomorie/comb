@@ -6,7 +6,7 @@ class SeoFixer
     profile = Profile.find profile_id
     start_updating = Time.now
 
-    time = '1.03.2013'.to_time
+    time = '14.02.2013'.to_time
 
     Generator.all.each { |g| instance_variable_set "@#{g.name}", g.words }
 
