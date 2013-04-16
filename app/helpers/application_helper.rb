@@ -16,7 +16,7 @@ module ApplicationHelper
   end
 
   def account_domain
-    session[:shop] || @account.insales_subdomain
+    #session[:shop] || @account.insales_subdomain
   end
 
   def app_name

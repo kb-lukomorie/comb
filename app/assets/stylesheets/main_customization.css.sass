@@ -1,3 +1,34 @@
+body
+  margin: 0
+.logo
+  padding: 15px
+
+.header
+  position: relative
+  height: 126px
+  //background-color: #fed619
+  @include gradient-vertical(#fed619, #fb8300)
+  .logo, .menu
+    position: absolute
+    z-index: 5
+  .menu
+    bottom: 0
+    margin-left: 350px
+    .nav
+      margin-bottom: 0
+    .nav-tabs
+      border-bottom: none
+      li
+        a
+          border: none
+          color: #333
+          background-color: #fed619
+          margin-bottom: 1px
+          &:hover
+            background-color: #ffef2f
+        &.active
+          a
+            background-color: white
 h1, h2, h3
   text-align: center
 .leftTabs, .content
@@ -9,3 +40,10 @@ h1, h2, h3
   margin-right: auto
 .footer
   text-align: center
+.left-chart, .right-chart
+  position: absolute
+  z-index: 1
+.left-chart
+  left:  0px
+.right-chart
+  right: 0

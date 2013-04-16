@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.12'
+gem 'rails', '3.2.13'
 
 gem 'strong_parameters'
 
@@ -57,6 +57,6 @@ end
 
 gem 'faker'
 
-gem 'resque', :git => 'git://github.com/defunkt/resque.git', :branch => '1-x-stable', require: 'resque/server'
+gem 'resque', :git => 'git://github.com/resque/resque.git', :branch => '1-x-stable', require: 'resque/server'
 gem 'capistrano-resque', '~> 0.1.0'
 gem 'whenever', require: false

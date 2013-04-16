@@ -1,5 +1,16 @@
-- if @account.profile.new_record?
-  %h1 Перед тем как мы начнём, заполните пожалуйста анкету
-  = render 'profiles/form'
+- if @account.present?
+  - if @account.profile.new_record?
+    %h1 Перед тем как мы начнём, заполните пожалуйста анкету
+    = render 'profiles/form'
+  - else
+    = render template: 'profiles/show'
 - else
-  = render template: 'profiles/show'
+  .fruits
+    = image_tag 'fruits500.png'
+    %p
+      Для того, чтобы начать пользоваться приложением, установите его через интерфейс администратора.
+    %p
+      Вход в приложение осуществляется также через интерфейс администратора.
+    %p
+      = link_to 'Войти в приложение через интерфейс администратора', 'http://www.insales.ru/login',
+                class: 'btn btn-warning btn-large', target: '_blank'

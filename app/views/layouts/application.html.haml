@@ -8,46 +8,72 @@
     = csrf_meta_tags
 
   %body
-    .containerPage
-      .head
-        .headTop
-          .leftHead
-            %h1 #{app_name}
-          .rightHead
-            %p
-              = link_to "Техподдержка", "http://#{@account.insales_subdomain}/admin/support"
-              = image_tag 'techsupport_ico.gif'
-              |
-              \#{link_to 'Форум', 'http://forum.insales.ru', :target => '_blank'}
-              |
-              \#{link_to 'Выйти', session_path, :method => 'delete'}
-        .leftTabs
-          .Tab
-            .tabLeftCorner
-            .tabContent= link_to image_tag('home_inactive_icon.png', :title => 'Вернуться в магазин', :alt => 'Вернуться в магазин'), home_path
-            .tabRightCorner
-          %div{class: params[:action] == 'description' ? 'Tab' : 'activeTab'}
-            .tabLeftCorner
-            .tabContent= link_to 'Ваша Анкета', root_path
-            .tabRightCorner
-          %div{class: params[:action] == 'description' ? 'activeTab' : 'Tab'}
-            .tabLeftCorner
-            .tabContent= link_to 'Описание Приложения', description_path
-            .tabRightCorner
-      .content
-        %h1
-          = link_to(image_tag('back_ico.png', :style => "margin-bottom:-5px", :alt => "На предыдущую страницу", :title => "На предыдущую страницу"), @back) if @back
-        #page_title{:style => "display:inline;"}= @title
-        - if @links
-          #subtitle_links= @links
-        = flash_messages
-        = yield
+    .header
+      .left-chart
+        = image_tag 'left_chart.png'
+      .right-chart
+        = image_tag 'right_chart.png'
+      .container
+        .logo
+          = link_to image_tag('logo.png'), root_path
+        .menu
+          %ul.nav.nav-tabs.pull-right
+            %li{class: ('active' if params[:action] == 'main')}
+              = link_to current_app.present? ? 'Ваша Анкета' : 'Начать использовать', root_path
+            %li{class: ('active' if params[:action] == 'description')}
+              = link_to 'Описание Приложения', description_path
+
+    .container
+
+      = yield
+      %hr{style: 'clear: both'}
       .footer
-        %div
-          %p
-            \&copy;
-            = succeed "," do
-              %span{:style => "color: #752F16; font-weight: bold;"}= link_to 'Cделано в SEO студии INBreak.ru', 'http://inbreak.ru/'
-            2013. &nbsp;|&nbsp;
-            %a{:href => "http://www.insales.ru/terms"} Условия предоставления услуг
+        %p
+          2013 ©
+          %span{:style => "color: #752F16; font-weight: bold;"}= link_to 'Cделано в SEO студии INBreak.ru', 'http://inbreak.ru/'
+          &nbsp;|&nbsp;
+          %a{:href => "http://www.insales.ru/terms"} Условия предоставления услуг
+
+    -#.containerPage
+    -#  .head
+    -#    .headTop
+    -#      .leftHead
+    -#        %h1 #{app_name}
+    -#      .rightHead
+    -#        %p
+    -#          -#= link_to "Техподдержка", "http://#{@account.insales_subdomain}/admin/support"
+    -#          = image_tag 'techsupport_ico.gif'
+    -#          |
+    -#          \#{link_to 'Форум', 'http://forum.insales.ru', :target => '_blank'}
+    -#          |
+    -#          \#{link_to 'Выйти', session_path, :method => 'delete'}
+    -#    .leftTabs
+    -#      .Tab
+    -#        .tabLeftCorner
+    -#        .tabContent= link_to image_tag('home_inactive_icon.png', :title => 'Вернуться в магазин', :alt => 'Вернуться в магазин'), home_path
+    -#        .tabRightCorner
+    -#      %div{class: params[:action] == 'description' ? 'Tab' : 'activeTab'}
+    -#        .tabLeftCorner
+    -#        .tabContent= link_to 'Ваша Анкета', root_path
+    -#        .tabRightCorner
+    -#      %div{class: params[:action] == 'description' ? 'activeTab' : 'Tab'}
+    -#        .tabLeftCorner
+    -#        .tabContent= link_to 'Описание Приложения', description_path
+    -#        .tabRightCorner
+    -#  .content
+    -#    %h1
+    -#      = link_to(image_tag('back_ico.png', :style => "margin-bottom:-5px", :alt => "На предыдущую страницу", :title => "На предыдущую страницу"), @back) if @back
+    -#    #page_title{:style => "display:inline;"}= @title
+    -#    - if @links
+    -#      #subtitle_links= @links
+    -#    = flash_messages
+    -#    = yield
+    -#  .footer
+    -#    %div
+    -#      %p
+    -#        \&copy;
+    -#        = succeed "," do
+    -#          %span{:style => "color: #752F16; font-weight: bold;"}= link_to 'Cделано в SEO студии INBreak.ru', 'http://inbreak.ru/'
+    -#        2013. &nbsp;|&nbsp;
+    -#        %a{:href => "http://www.insales.ru/terms"} Условия предоставления услуг
 

@@ -67,5 +67,5 @@ class ApplicationController < ActionController::Base
   def current_app
     session[:app]
   end
-
+  helper_method :current_app
 end
