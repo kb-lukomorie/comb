@@ -18,7 +18,7 @@
           = link_to image_tag('logo.png'), root_path
         .menu
           %ul.nav.nav-tabs.pull-right
-            - if current_app.present?
+            - if current_app.present? && current_app.authorized?
               %li{class: ('active' if params[:action] == 'main')}
                 = link_to  'Ваша Анкета', root_path
             - else
