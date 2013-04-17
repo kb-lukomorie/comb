@@ -18,8 +18,12 @@
           = link_to image_tag('logo.png'), root_path
         .menu
           %ul.nav.nav-tabs.pull-right
-            %li{class: ('active' if params[:action] == 'main')}
-              = link_to current_app.present? ? 'Ваша Анкета' : 'Начать использовать', root_path
+            - if current_app.present?
+              %li{class: ('active' if params[:action] == 'main')}
+                = link_to  'Ваша Анкета', root_path
+            - else
+              %li{class: ('active' if params[:action] == 'start')}
+                = link_to 'Начать использовать', start_path
             %li{class: ('active' if params[:action] == 'description')}
               = link_to 'Описание Приложения', description_path
 

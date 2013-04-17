@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
     if account_by_params
       init_authorization account_by_params
     else
-      redirect_to login_path
+      redirect_to start_path
     end
   end
 

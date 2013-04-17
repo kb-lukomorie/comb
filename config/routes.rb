@@ -15,6 +15,7 @@ InsalesApp::Application.routes.draw do
   match '/uninstall',   to: 'insales_app#uninstall', as: :uninstall
   match '/login',       to: 'sessions#create',       as: :login
   match '/main',        to: 'pages#main',            as: :main
+  match '/start',       to: 'pages#start',           as: :start
   match '/description', to: 'pages#description',     as: :description
 
   mount Resque::Server, at: '/resque'
