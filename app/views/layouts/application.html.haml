@@ -26,9 +26,12 @@
                 = link_to 'Начать использовать', start_path
             %li{class: ('active' if params[:action] == 'description')}
               = link_to 'Описание Приложения', description_path
-
+            - if @account.present?
+              %li
+                = link_to "http://#{@account.insales_subdomain}/admin" do
+                  Вернуться в админку магазина
+                  %i{class: "icon-home"}
     .container
-
       = yield
       %hr{style: 'clear: both'}
       .footer
