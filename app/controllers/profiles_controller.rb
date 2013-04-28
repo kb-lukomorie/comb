@@ -1,5 +1,7 @@
 # coding: utf-8
 class ProfilesController < ApplicationController
+  after_filter :add_charge, only: :create
+
   def index
     redirect_to root_path
   end
@@ -82,4 +84,7 @@ private
                                     :self_delivery, :shop_description, :shop_name, :special_url)
   end
 
+  def add_charge
+    InsalesApi::Charge.setup 300
+  end
 end
