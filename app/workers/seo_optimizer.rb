@@ -22,12 +22,12 @@ class SeoOptimizer
     iapp.store_auth_token
     iapp.authorize iapp.auth_token
 
-    main_page = InsalesApi::Page.all.select { |p| p.is_main? }.first
-    if main_page.html_title.blank?
-      main_page.html_title = "#{profile.shop_description} #{profile.shop_name} #{profile.city}"
-      main_page.save
-      puts 'Main page updated'
-    end
+    #main_page = InsalesApi::Page.all.select { |p| p.is_main? }.first
+    #if main_page.html_title.blank?
+    #  main_page.html_title = "#{profile.shop_description} #{profile.shop_name} #{profile.city}"
+    #  main_page.save
+    #  puts 'Main page updated'
+    #end
 
     collections = InsalesApi::Collection.all
     catalog = collections.select { |c| c.parent_id == nil }.first
